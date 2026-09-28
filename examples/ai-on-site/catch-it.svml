@@ -4,25 +4,34 @@
   <import as="spatial" from="@hypit/spatial@1"/>
   <import as="fonts" from="@hypit/fonts-open@1"/>
   <import as="steps" from="@example/steps-scene@1"/>
+  <import as="asset" from="@hypit/media@1"/>
+  <import as="pipeline" from="@hypit/media-pipeline@1"/>
+  <import as="audio" from="@hypit/audio-track@1"/>
   <import as="film" from="@hypit/film@1"/>
   <import as="render" from="@hypit/render-hyperframes@1"/>
   <import as="style" source="./ai-on-site.svs"/>
 
   <time:Clock id="animation-clock" frame-rate="30"/>
-  <time:Timeline id="animation" clock={animation-clock} end="20s"/>
+  <time:Timeline id="animation" clock={animation-clock} end="727f"/>
   <spatial:Canvas id="canvas" width="1080" height="1920"/>
   <fonts:Stack id="font" family="inter" weight="800" style="normal"/>
   <steps:Scene id="explainer" timeline={animation.timeline} canvas={canvas} font={font}
     during="program" title="SITE TIP">
-    <steps:Beat id="hook" role="hook" at="0s" text="Your install didn't slip on site. It slipped in the drawings."/>
-    <steps:Beat id="one" role="step" at="3.6s" text="Check the latest revision — not the one in the van."/>
-    <steps:Beat id="two" role="step" at="6.6s" text="Walk the route before the tray goes up."/>
-    <steps:Beat id="three" role="step" at="9.6s" text="Flag clashes in writing, same day, with a drawing ref."/>
-    <steps:Beat id="four" role="step" at="12.6s" text="Don't start a run you can't finish."/>
-    <steps:Beat id="close" role="end" at="15.8s" text="Catch it on paper. Not on the ceiling."/>
+    <steps:Beat id="hook" role="hook" at="0f" text="Your install didn't slip on site. It slipped in the drawings."/>
+    <steps:Beat id="one" role="step" at="137f" text="Check the latest revision — not the one in the van."/>
+    <steps:Beat id="two" role="step" at="263f" text="Walk the route before the tray goes up."/>
+    <steps:Beat id="three" role="step" at="356f" text="Flag clashes in writing, same day, with a drawing ref."/>
+    <steps:Beat id="four" role="step" at="502f" text="Don't start a run you can't finish."/>
+    <steps:Beat id="close" role="end" at="597f" text="Catch it on paper. Not on the ceiling."/>
   </steps:Scene>
+  <asset:Audio id="voice-source" src="./assets/voice/catch-it.m4a"/>
+  <pipeline:Normalize id="voice-media" source={voice-source} clock={animation-clock} video="none" audio="default" span-authority="audio"/>
+  <audio:Track id="voice" timeline={animation.timeline}>
+    <audio:Item id="voiceover" source={voice-media.media} during="program" playback="once"/>
+  </audio:Track>
   <film:Film id="main" canvas={canvas} timeline={animation.timeline} appearance={style.film.main}>
     <film:Track source={explainer.track}/>
+    <film:Track source={voice.audio}/>
   </film:Film>
   <render:Video id="final" composition={main.composition} timeline={animation.timeline}/>
 </svml>
