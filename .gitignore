@@ -49,6 +49,8 @@ docs/.vitepress/dist/
 .svml-cache/
 .hypit/
 examples/**/assets/
+# Paid ElevenLabs voiceover for the site-tip series: versioned so builds work from a fresh checkout.
+!examples/ai-on-site/assets/
 examples/**/reused/*.mp4
 examples/**/build/
 examples/**/output/
