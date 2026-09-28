@@ -1,0 +1,28 @@
+<?svml using="@hypit/markup@1"?>
+<svml>
+  <import as="time" from="@hypit/timeline-author@1"/>
+  <import as="spatial" from="@hypit/spatial@1"/>
+  <import as="fonts" from="@hypit/fonts-open@1"/>
+  <import as="steps" from="@example/steps-scene@1"/>
+  <import as="film" from="@hypit/film@1"/>
+  <import as="render" from="@hypit/render-hyperframes@1"/>
+  <import as="style" source="./ai-on-site.svs"/>
+
+  <time:Clock id="animation-clock" frame-rate="30"/>
+  <time:Timeline id="animation" clock={animation-clock} end="20s"/>
+  <spatial:Canvas id="canvas" width="1080" height="1920"/>
+  <fonts:Stack id="font" family="inter" weight="800" style="normal"/>
+  <steps:Scene id="explainer" timeline={animation.timeline} canvas={canvas} font={font}
+    during="program" title="SITE TIP">
+    <steps:Beat id="hook" role="hook" at="0s" text="Handover week shouldn't be a paperwork panic."/>
+    <steps:Beat id="one" role="step" at="3.6s" text="Test sheet signed the day the test is done."/>
+    <steps:Beat id="two" role="step" at="6.6s" text="Photo every section before it's closed up."/>
+    <steps:Beat id="three" role="step" at="9.6s" text="Snag logged with location, date and owner."/>
+    <steps:Beat id="four" role="step" at="12.6s" text="Tracker updated daily — not Friday."/>
+    <steps:Beat id="close" role="end" at="15.8s" text="If it isn't recorded, it didn't happen."/>
+  </steps:Scene>
+  <film:Film id="main" canvas={canvas} timeline={animation.timeline} appearance={style.film.main}>
+    <film:Track source={explainer.track}/>
+  </film:Film>
+  <render:Video id="final" composition={main.composition} timeline={animation.timeline}/>
+</svml>
