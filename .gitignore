@@ -17,6 +17,9 @@ coverage/
 # per-agent link that points at it.
 .claude/*
 !.claude/skills
+# Cloud-session setup: the SessionStart hook and the settings that register it.
+!.claude/settings.json
+!.claude/hooks
 .codex/*
 !.codex/skills
 .idea/
