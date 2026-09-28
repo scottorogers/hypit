@@ -1,0 +1,37 @@
+<?svml using="@hypit/markup@1"?>
+<svml>
+  <import as="time" from="@hypit/timeline-author@1"/>
+  <import as="spatial" from="@hypit/spatial@1"/>
+  <import as="fonts" from="@hypit/fonts-open@1"/>
+  <import as="steps" from="@example/steps-scene@1"/>
+  <import as="asset" from="@hypit/media@1"/>
+  <import as="pipeline" from="@hypit/media-pipeline@1"/>
+  <import as="audio" from="@hypit/audio-track@1"/>
+  <import as="film" from="@hypit/film@1"/>
+  <import as="render" from="@hypit/render-hyperframes@1"/>
+  <import as="style" source="./ai-on-site.svs"/>
+
+  <time:Clock id="animation-clock" frame-rate="30"/>
+  <time:Timeline id="animation" clock={animation-clock} end="709f"/>
+  <spatial:Canvas id="canvas" width="1080" height="1920"/>
+  <fonts:Stack id="font" family="inter" weight="800" style="normal"/>
+  <steps:Scene id="explainer" timeline={animation.timeline} canvas={canvas} font={font}
+    during="program" title="AI ON SITE">
+    <steps:Beat id="hook" role="hook" at="0f" text="Site teams still retype the same cable IDs three times."/>
+    <steps:Beat id="pull" role="step" at="181f" text="Pull IDs from the drawings once."/>
+    <steps:Beat id="build" role="step" at="266f" text="Build the tracker from that list."/>
+    <steps:Beat id="tick" role="step" at="344f" text="Tick progress on a phone, not a clipboard."/>
+    <steps:Beat id="report" role="step" at="447f" text="Report straight from the tracker."/>
+    <steps:Beat id="close" role="end" at="525f" text="The tools exist. The trade just hasn't picked them up."/>
+  </steps:Scene>
+  <asset:Audio id="voice-source" src="./assets/voice/ai-on-site.m4a"/>
+  <pipeline:Normalize id="voice-media" source={voice-source} clock={animation-clock} video="none" audio="default" span-authority="audio"/>
+  <audio:Track id="voice" timeline={animation.timeline}>
+    <audio:Item id="voiceover" source={voice-media.media} during="program" playback="once"/>
+  </audio:Track>
+  <film:Film id="main" canvas={canvas} timeline={animation.timeline} appearance={style.film.main}>
+    <film:Track source={explainer.track}/>
+    <film:Track source={voice.audio}/>
+  </film:Film>
+  <render:Video id="final" composition={main.composition} timeline={animation.timeline}/>
+</svml>

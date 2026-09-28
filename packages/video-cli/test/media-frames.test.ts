@@ -7,7 +7,10 @@ import { join } from "node:path";
 import { decodeMediaFrames } from "../src/media-frames.js";
 import { runMediaCli } from "../src/media.js";
 
-test("native evidence preserves variable-rate timestamps and half-open bounds across grid pages", async () => {
+const ffmpeg = spawnSync("ffmpeg", ["-version"], { stdio: "ignore" }).status === 0
+  && spawnSync("ffprobe", ["-version"], { stdio: "ignore" }).status === 0;
+
+test("native evidence preserves variable-rate timestamps and half-open bounds across grid pages", { skip: !ffmpeg && "ffmpeg is not installed" }, async () => {
   const directory = await mkdtemp(join(tmpdir(), "hypit-native-frames-test-"));
   try {
     const source = join(directory, "vfr.mkv");

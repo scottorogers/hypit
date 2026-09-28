@@ -17,6 +17,9 @@ coverage/
 # per-agent link that points at it.
 .claude/*
 !.claude/skills
+# Cloud-session setup: the SessionStart hook and the settings that register it.
+!.claude/settings.json
+!.claude/hooks
 .codex/*
 !.codex/skills
 .idea/
@@ -46,6 +49,8 @@ docs/.vitepress/dist/
 .svml-cache/
 .hypit/
 examples/**/assets/
+# Paid ElevenLabs voiceover for the site-tip series: versioned so builds work from a fresh checkout.
+!examples/ai-on-site/assets/
 examples/**/reused/*.mp4
 examples/**/build/
 examples/**/output/
